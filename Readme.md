@@ -19,7 +19,7 @@ Applied to an H2 tag. Describes the name of a route or hiker.
 Applied to an A tag. Describes the URL of a particular route or hiker in this application.
 
 * `Place/HikingTrail/hikedBy`
-A property of `http://schema.org/Person`. Applied to an A tag where `itemtype="http://schema.org/Person"`. Describes the name of a "hiker," or the person who has hiked on or submitted the route to this application.
+A property of `http://schema.org/Place/HikingTrail`. Applied to an A tag where `itemtype="http://schema.org/Place/HikingTrail"`. Describes a "hiker," or the person who has hiked on or submitted the route to this application.
 
 * `description`
 Applied to a SPAN tag. Describes a route or hiker.
