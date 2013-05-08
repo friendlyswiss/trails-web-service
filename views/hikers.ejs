@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Route Finder: Hikers</title>
+</head>
+<body>
+    <header>
+		<a href="/" rel="index"><h1>Route Finder</h1></a>
+	</header>
+	<nav>
+		<ul><li><a rel="routes" href="/routes/">All Routes</a></li></ul>
+	</nav>
+	<section id="content">
+
+		<!--Representing a list of Hikers-->
+		<section id="hikers">
+			<h2>Hikers</h2>
+			<% if (items.length > 0) { %>
+				<ul>
+					<% items.forEach(function(item) { %>
+					<li class="hiker" itemscope itemtype="http://schema.org/Person"><span class="hiker-name" itemprop="name"><a href="/hikers/<%=item._id%>" rel="hiker" itemprop="url"><%=item.name%></a></span>
+					</li>
+					<% }); %>
+				</ul>
+			<% } else { %>
+			<h3>No hikers found</h3>
+			<% } %>
+		</section><!--#hikers end-->
+
+		<aside class="options">
+
+			<!--State transfer for posting a new Hiker-->
+			<h2>Add a new hiker</h2>
+			<script>
+		    function onFormSubmit(form) {
+		    	form.action = form.action + form.elements['item[id]'].value;
+		    	console.log(form.action);
+		    	return true;
+		    } 
+		    </script>
+		    <!-- Dynamically set the PUT destination when the form is submitted. -->
+			<form id="new-hiker" method="post" action="/hikers/" onsubmit="return onFormSubmit(this);">
+				<!-- Tell the server to treat this as a PUT request. -->
+				<input type="hidden" name="_method" value="put">
+
+		        <label>Hiker name<br /><input type="text" name="item[name]" required placeholder="AT Hiker"/></label><br />
+
+		        <label>Hiker ID (lowercase letters only, no spaces)<br /><input name="item[id]" type="text" pattern="[a-z]+" required placeholder="athiker"></label><br />
+				
+				<label>Hiker description<br /><textarea name="item[description]"></textarea></label><br />
+
+		        <button>Add</button>
+		    </form><!--#new-hiker end-->
+
+		</aside><!--.options end-->
+	</section><!--#content end-->
+</body>
+</html>

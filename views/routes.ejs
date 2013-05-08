@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Route Finder: Routes</title>
+</head>
+<body>
+    <header>
+		<a href="/" rel="index"><h1>Route Finder</h1></a>
+	</header>
+	<nav>
+		<ul><li><a rel="hikers" href="/hikers/">All Hikers</a></li></ul>
+	</nav>
+	<section id="content">
+
+		<!--Representing a list of routes-->
+		<section id="routes">
+			<h2>Routes</h2>
+			<% if (items.length > 0) { %>
+				<ul>
+					<% items.forEach(function(item) { %>
+					<li class="route" itemscope itemtype="http://schema.org/Place/HikingTrail"><span class="route-name" itemprop="name"><a href="/routes/<%=item._id%>" rel="route" itemprop="url"><%=item.name%></a></span><br />
+					</li>
+					<% }); %>
+				</ul>
+			<% } else { %>
+			<h3>No routes found</h3>
+			<% } %>
+		</section><!--#routes end-->
+
+		<aside class="options">
+
+			<!--State transfer for searching for Routes-->
+			<h2>Search for routes by name</h2>
+			<form class="search" action="/routes/" method="get">
+
+				<label>Route name: <input type="text" name="match-text" /></label><br />
+				<button>Search</button>
+			</form><!--#search end-->
+
+		</aside><!--.options end-->
+	</section><!--#content end-->
+</body>
+</html>

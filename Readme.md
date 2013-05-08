@@ -1,68 +1,108 @@
-# An example web information service
+##Route Finder Web Information Service
+**Curt Arledge**
+**[INLS 490-186]**
 
-This is an example application intended to be used as a starting point for the final project in [INLS 490-186 Web Information Organization](http://aeshin.org/teaching/inls-490-186/2013/sp/).
+**[Schema.org](http://www.schema.org "Schema.org") Microdata Type Values**
 
-## Forking this repository
+* `http://schema.org/Place/HikingTrail`
+An extension of `http://schema.org/Place` specific to this application. Applied to a LI or SECTION tag. Describes a hiking trail, in this application called a "route."
 
-You will want to start by [forking](http://help.github.com/fork-a-repo/) this repository so you have your own copy to modify. If you decide to work in a group, I will put a copy of the code in your shared repository. (While it's possible to collaborate with your group by pushing and pulling commits across your two or three separate forks, doing so requires somewhat advanced knowledge of Git and thus isn't expected for this assignment.)
+* `http://schema.org/Person`
+Applied to a LI, SECTION, or A tag. In this application, describes a hiker.
 
-If you're working alone, please **rename your GitHub repository** to something more suitable for your service. You can do this by clicking on the `Settings` button in the top right of your repository's page on GitHub. A one-word, no-spaces name is best. (If you're working in a group the repository will be named after your group).
+**[Schema.org](http://www.schema.org "Schema.org") Microdata Property Values**
 
-## Cloning your project in Cloud9
+* `name`
+Applied to an H2 tag. Describes the name of a route or hiker.
 
-If you're working alone, and you've successfully forked the repository to your own GitHub account, then cloning your project into Cloud9 is simple. Just sign in to [Cloud9](http://c9.io) using your GitHub account (click the little green [Octocat](http://octodex.github.com/) icon). Your dashboard should open, and you will see a list of `PROJECTS ON GITHUB` on the left. Select your project and click the green `CLONE TO EDIT` button.
+* `url`
+Applied to an A tag. Describes the URL of a particular route or hiker in this application.
 
-If you're in a group, your GitHub repository won't show up in the list of GitHub projects, so you need to click the plus-sign button next to `MY PROJECTS` on the left, and select `Clone From URL`. Then (in another browser tab) go to the homepage of your team's repository, and copy the URL next to where it says `Read+Write access` (it should look something like `git@github.com:sils-webinfo/SteampunkUnicorn.git` if `SteampunkUnicorn` were the name of your group). Go back to Cloud9, paste this URL in the `Source URL` field, and click the green `CHECKOUT` button. Cloud9 should start cloning your project. (Sometimes it flakes out; if it does just try again.)
+* `Place/HikingTrail/hikedBy`
+A property of `http://schema.org/Person`. Applied to an A tag where `itemtype="http://schema.org/Person"`. Describes the name of a "hiker," or the person who has hiked on or submitted the route to this application.
 
-## Modifying the example code
+* `description`
+Applied to a SPAN tag. Describes a route or hiker.
 
-There are only three places where the example service needs to be modified to implement your own service:
+* `geo`
+Applied to a SPAN tag where `itemtype="http://schema.org/Place/HikingTrail"`. The list of coordinates representing a route.
 
-1. [`app.js`](https://github.com/sils-webinfo/election/blob/master/app.js) contains all the logic for handling HTTP requests. You may just need to modify the examples in this file, or you may need to add additional request handlers by copying, pasting, and modifying these examples. The only parts you should *need* to change are marked with with `TODO` comments. In particular, make sure you edit the value of the `USER_OR_GROUP_NAME` variable at the top of this file to match your GitHub user name (if you're working alone) or your group name:
+* `Place/HikingTrail/trailType`
+A property of `http://schema.org/Place/HikingTrail`. Applied to a SPAN tag where `itemtype="http://schema.org/Place/HikingTrail"`. Describes the type/condition of a route.
 
-    ```javascript
-    var USER_OR_GROUP_NAME = ''; // TODO: Insert GitHub username or group name.
-    ```
+* `Place/HikingTrail/trailDifficulty`
+A property of `http://schema.org/Place/HikingTrail`. Applied to a SPAN tag where `itemtype="http://schema.org/Place/HikingTrail"`. Describes the difficulty of a route.
 
-1. The [`views`](https://github.com/sils-webinfo/election/tree/master/views) directory contains all the EJS ([Embedded JavaScript](http://embeddedjs.com/)) templates for the service. You will need to create new templates suitable for your application, using these examples as models. The templates should include the metadata describing your application flow and data.
+* `Person/hiked`
+A property of `http://schema.org/Person`. Applied to a LI tag where `itemtype="http://schema.org/Person"`. Describes a route hiked or submitted to this application by this person.
 
-1. Finally, you need to edit [`package.json`](https://github.com/sils-webinfo/election/blob/master/package.json) and change the value of the `name` property to whatever you named your project.
+**ID attribute values**
 
-## Testing your code
+* `content`
+Applied to a SECTION tag. All (non-header) content on the page.
+* `routes`
+Applied to a SECTION tag. A list of routes.
+* `hikers`
+Applied to a SECTION tag. A list of hikers.
 
-To run your project, simply open `app.js` and click the `Run` button at the top of the screen (it looks like a green play button). You should see a message like this in the console:
 
-```
-Running Node Process
-Your code is running at 'http://election.rybesh.c9.io'.
-Important: use 'process.env.PORT' as the port and 'process.env.IP' as the host in your scripts!
-```
+**Class attribute values**
 
-Clicking on the URL (in my case, `http://election.rybesh.c9.io` since `rybesh` is my GitHub/Cloud9 username) should open a new browser tab or window to your web app.
+* `options`
+Applied to an ASIDE tag. Contains link(s) to navigate and manipulate informationn.
+* `search`
+Applied to a FORM tag. A templated query link to search for routes matching specified criterea. The element must be set to FORM.method="get".
+* `new-route`
+Applied to a FORM tag. A non-idempotent update link that posts a new route with the specified metadata. The element must be set to FORM.method="post".
+* `new-hiker`
+Applied to a FORM tag. An idempotent update link that posts a new hiker with the specified metadata. The element must be set to FORM.method="post" with added Javascript to PUT.
+* `update-route`
+Applied to a FORM tag. An idempotent update link that updates an existing route with the specified metadata. The element must be set to FORM.method="post" with added Javascript to PUT.
+* `update-hiker`
+Applied to a FORM tag. An idempotent update link that updates an existing hiker with the specified metadata. The element must be set to FORM.method="post" with added Javascript to PUT.
+* `route`
+When applied to a LI tag, a representation of a listed route. Must contain only one SPAN.class="route-name" descendent element.
+When applied to a SECTION tag, a representation of a route. Must contain H2.class="route-name" AND SPAN.class="hiker" and may contain SPAN.class="description", SPAN.class="trail-type", SPAN.class="trail-difficulty", and SPAN.class="coordinates" descendent elements.
+* `hiker`
+When applied to a LI tag, a representation of a listed route. Must contain only one SPAN.class="hiker-name" descendent.
+When applied to a SECTION tag, a representation of a hiker. Must contain H2.class="hiker-name" element and may contain SPAN.class="description" element.
+* `route-name`
+Applied to a SPAN tag or H2 tag. Contains the name of a route.
+* `hiker-name`
+Applied to a SPAN tag or H3 tag. Contains the name of a hiker.
+* `description`
+Applied to a SPAN tag. Contains a text description of a route or hiker.
+* `trail-difficulty`
+Applied to a SPAN tag. Contains the difficulty of a route.
+* `trail-type`
+Applied to a SPAN tag. Contains the trail type of a route.
+* `coordinates`
+Applied to a SPAN tag. Contains the coordinates of a route.
 
-If you get an error message, it's probably because you forgot to set `USER_OR_GROUP_NAME` (see above) or due to a syntax error somewhere in `app.js` (look for red `X`s along the left margin of the editor when you open `app.js`). 
+**Name attribute values**
 
-## Troubleshooting
+* `match-text`
+Applied to an INPUT[text] element. The user wants to see only routes that contain this text.
+* `trail-difficulty`
+When applied to an INPUT[radio] element and contained within a FORM.class="new-route" element, the difficulty of the new route.
+* `trail-type`
+When contained within a FORM.class="new-route" element, the trail type of the route.
+* `route-name`
+Applied to an INPUT[text] element. The name of the route.
+* `route-description`
+Applied to a TEXTAREA element. The description of the route.
+* `coordinates`
+Applied to a TEXTAREA element. The coordinates of the route.
 
-Running your app in Cloud9 and looking at the console output should help you troubleshoot basic problems. You can add logging messages to `app.js` like this:
+**Rel attribute values**
 
-```javascript
-console.log("Calculating grobble vectors…");
-```
-
-Then you when you run your app in Cloud9, you should see the text `Calculating grobble vectors…` in your console when that code is executed. Adding lots of console logging messages like this can help you understand when various parts of the program are running. You can also print out variables to see what their values are:
-
-```javascript
-// Get the item ID from the URI.
-var item_id = req.params.id;
-console.log("the item id is: ", item_id);
-```
-
-You may also want to verify that data is being created and updated in your database correctly. You can do this by going to [the admin tools for our shared database server](http://sils-webinfo.iriscouch.com/_utils/). Find your database in the list (it is named whatever you set `USER_OR_GROUP_NAME` to in `app.js`), and click it. You should see a list of all the "documents" (objects) in your database. Clicking on a document ID will show its details (properties and values).
-
-## Deploying to Heroku
-
-When you've got your app running how you want it, and you're ready to turn things in, it's time to deploy to [Heroku](http://www.heroku.com/). Heroku is a free (for us) cloud hosting platform. It will enable your app to run longer than it can in the Cloud9 debugger.
-
-First, [sign up](https://api.heroku.com/signup) for Heroku. Then, follow [these instructions](https://docs.c9.io/deploying_to_heroku.html) to deploy your app. Don't worry about the `package.json` and `Procfile` files: those already exist, and you shouldn't have to change them except to change the project name in `package.json` (see above).
-
+* `index`
+Applied to an A tag. A reference to the starting URI for the application.
+* `route`
+Applied to an A tag. A reference to a particular route representation.
+* `hiker`
+Applied to an A tag. A reference to a particular hiker representation.
+* `routes`
+Applied to an A tag. A reference to a representation of a list of routes.
+* `hikers`
+Applied to an A tag. A reference to a representation of a list of hikers.

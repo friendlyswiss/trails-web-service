@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Route Finder: Hiker</title>
+</head>
+<body>
+	<header>
+		<a href="/" rel="index"><h1>Route Finder</h1></a>
+	</header>
+	<nav>
+		<ul>
+			<li><a rel="hikers" href="/hikers/">All Hikers</a></li>
+			<li><a rel="routes" href="/routes/">All Routes</a></li>
+		</ul>
+	</nav>
+	<section id="content">
+		
+		<section class="hiker" itemscope itemtype="http://schema.org/Person">
+			<h2 class="hiker-name" itemprop="name"><%=item.name%></h2>
+
+			<span class="description" itemprop="description"><%=item.description%></span><br />
+
+			Routes by this Hiker:
+      
+	        <% if (related_items.length > 0) { %>
+	        <ul>
+	            <% related_items.forEach(function(related_item) { %>
+	            <li itemprop="hiked" itemscope itemtype="http://schema.org/Place/HikingTrail">
+	            	<a href="/routes/<%=related_item._id%>" rel="routes" itemprop="url" itemprop="name"><%=related_item.name%></a>
+	            </li>
+	            <% }); %>
+	        </ul>
+	        <% } else { %>
+	        No routes have been added by this Hiker.
+	        <% } %>        
+
+		</section><!--.hiker end-->
+
+		<aside class="options">
+			<h3>Update Hiker profile</h3>
+			<script>
+		    function onFormSubmit(form) {
+		    	form.action = form.action + form.elements['item[id]'].value;
+		    	console.log(form.action);
+		    	return true;
+		    } 
+		    </script>
+			<!-- Dynamically set the PUT destination when the form is submitted. -->
+			<form class="update-hiker" method="post" action="/hikers/" onsubmit="return onFormSubmit(this);">
+				<!-- Tell the server to treat this as a PUT request. -->
+				<input type="hidden" name="_method" value="put">
+
+				<input type="hidden" name="item[id]" value="<%=item.id%>">
+
+				<label>Rename Hiker<br /><input type="text" name="item[name]" required placeholder="New hiker name"/></label><br />
+				
+				<label>New description<br /><textarea name="item[description]"></textarea></label><br />
+
+		        <button>Update</button>
+		    </form><!--.update-hiker-->
+
+		    <h3>Add route for this hiker</h3>
+		    <form class="new-route" action="/routes/" method="post">
+		    	<input type="hidden" name="item[hiker]" value="<%=item._id%>">
+
+				<label>Name your route<br /><input type="text" name="item[name]" required placeholder="New route name"/></label><br />
+				
+				<label>Route description<br /><textarea name="item[description]"></textarea></label><br />
+
+				<label>Route coordinates<br /><textarea name="item[coordinates]"></textarea></label><br />
+
+				What type of trail(s) does the route contain?<br />
+				<label><input type="checkbox" name="item[trailtype]" value="Greenway" />Greenway</label>
+				<label><input type="checkbox" name="item[trailtype]" value="Rail" />Rail Trail</label>
+				<label><input type="checkbox" name="item[trailtype]" value="Backcountry" />Backcountry</label>
+				<label><input type="checkbox" name="item[trailtype]" value="Urban trail/bikeway" />Urban trail/bikeway</label><br />
+
+				How difficult is the route?<br />
+				<label><input type="radio" name="item[difficulty]" value="Easy" />Easy</label>
+				<label><input type="radio" name="item[difficulty]" value="Intermediate" />Intermediate</label>
+				<label><input type="radio" name="item[difficulty]" value="Strenuous" />Strenuous</label><br />
+
+				<button>Add route</button>
+			</form><!--#new-route end-->
+		</aside><!--.options-->
+	</section><!--#content end-->
+</body>
+</html>

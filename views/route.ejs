@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Route Finder: <%=item.name%></title>
+</head>
+<body>
+    <header>
+		<a href="/" rel="index"><h1>Route Finder</h1></a>
+	</header>
+	<nav>
+		<ul>
+			<li><a rel="routes" href="/routes/">All Routes</a></li>
+			<li><a rel="hikers" href="/hikers/">All Hikers</a></li>
+		</ul>
+	</nav>
+	<section id="content">
+
+		<!--Representing a single route-->
+		<section class="route" itemscope itemtype="http://schema.org/Place/HikingTrail">
+			<h2 class="route-name" itemprop="name"><%=item.name%></h2>
+
+			Created by <a href="/hikers/<%=item.hiker%>" rel="hiker" itemprop="hikedBy" itemscope itemtype="http://schema.org/Person"><span class="hiker-name" itemprop="name"><%=item.hiker%></span></a><br />
+
+			<span class="description" itemprop="description"><%=item.description%></span><br />
+
+			<span class="coordinates" itemprop="geo"><%=item.coordinates%></span><br />
+
+			Trail Type: <span class="trail-type" itemprop="trailType"><%=item.trailtype%></span><br />
+
+			Difficulty: <span class="trail-difficulty" itemprop="trailDifficulty"><%=item.difficulty%></span><br />
+		</section><!--.route end-->
+
+		<aside class="options">
+			<!--State transfer for updating a route-->
+			<h3>Update route</h3>
+		    <script>
+		    function onFormSubmit(form) {
+		    	form.action = form.action + form.elements['item[id]'].value;
+		    	console.log(form.action);
+		    	return true;
+		    }
+		    </script>
+			<!-- Dynamically set the PUT destination when form is submitted -->
+			<form class="update-route" action="/routes/" method="post" onsubmit="return onFormSubmit(this);">
+				<!-- Tell the server to treat this as a PUT request. -->
+				<input type="hidden" name="_method" value="put">
+
+				<label>Rename your route<br /><input type="text" name="item[name]" required placeholder="New route name"/></label><br />
+				
+				<input type="hidden" name="item[id]" type="text" pattern="[a-z]+" required value="<%=item.id%>">
+				
+				<label>New description<br /><textarea name="item[description]"></textarea></label><br />
+
+				<label>New coordinates<br /><textarea name="item[coordinates]"></textarea></label><br />
+
+				What type of trail(s) does the route contain?<br />
+				<label><input type="checkbox" name="item[trailtype]" value="Greenway" />Greenway</label>
+				<label><input type="checkbox" name="item[trailtype]" value="Rail" />Rail Trail</label>
+				<label><input type="checkbox" name="item[trailtype]" value="Backcountry" />Backcountry</label>
+				<label><input type="checkbox" name="item[trailtype]" value="Urban trail/bikeway" />Urban trail/bikeway</label><br />
+
+				How difficult is the route?<br />
+				<label><input type="radio" name="item[difficulty]" value="Easy" />Easy</label>
+				<label><input type="radio" name="item[difficulty]" value="Intermediate" />Intermediate</label>
+				<label><input type="radio" name="item[difficulty]" value="Strenuous" />Strenuous</label><br />
+
+				<button>Add or update route</button>
+			</form><!--#update-route end-->
+
+		</aside><!--.options end-->
+	</section><!--#content end-->
+</body>
+</html>
